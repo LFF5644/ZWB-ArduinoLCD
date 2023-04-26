@@ -2,23 +2,25 @@
 #include <LiquidCrystal.h>
 
 const int 
-	rs=12,
-	en=11,
-	d4=5,
-	d5=4,
-	d6=3,
-	d7=2,
-	PIN_backLight_button=6,
-	PIN_backLight=8,
-	PIN_sensor01=A0;
+	rs=12,	// Digital 12
+	en=11,	// Digital 11
+	d4=5,	// Digital 05
+	d5=4,	// Digital 04
+	d6=3,	// Digital 03
+	d7=2,	// Digital 02
+	PIN_button_backLight=6,	// Digital 06
+	PIN_backLight=8,		// Digital 08
+	PIN_sensorGas=A0;		// Analog 00
+
+const long
+	backLight_turnOffTime=1e5+2e4;	// 120s
 
 bool backLight=true;
-long backLight_turnOff=millis()+1e4;
-int sensor01_value;
-int sensor01_lastValue;
+long backLight_turnOff=millis()+backLight_turnOffTime;
+int sensorGas_value;
+int sensorGas_lastValue;
 long delay_1s;
 long delay_500ms;
-//int delay_5s;
 
 LiquidCrystal lcd(rs,en,d4,d5,d6,d7);
 
@@ -39,19 +41,19 @@ void runEvery_500ms(long ms){
 	}
 }
 void runEvery_1s(long ms){
-	sensor01_value=analogRead(PIN_sensor01);
-	if(sensor01_value!=sensor01_lastValue){
-		sensor01_lastValue=sensor01_value;
+	sensorGas_value=analogRead(PIN_sensorGas);
+	if(sensorGas_value!=sensorGas_lastValue){
+		sensorGas_lastValue=sensorGas_value;
 		clearLine(0);
 		lcd.print("Gas Sensor ");
-		lcd.print(sensor01_value);
+		lcd.print(sensorGas_value);
 	}
 }
 
-void setup() {
+void setup(){
 	pinMode(PIN_backLight,OUTPUT);
-	pinMode(PIN_backLight_button,INPUT);
-	pinMode(PIN_sensor01,INPUT);
+	pinMode(PIN_button_backLight,INPUT);
+	pinMode(PIN_sensorGas,INPUT);
 	digitalWrite(PIN_backLight,HIGH);
 
 	Serial.begin(9600);
@@ -59,7 +61,7 @@ void setup() {
 	lcd.print("Startup ...");
 }
 
-void loop() {
+void loop(){
 	const long ms=millis();
 
 	if(ms>delay_1s){
@@ -71,11 +73,11 @@ void loop() {
 		runEvery_500ms(ms);
 	}
 
-	int buttonPressed=digitalRead(PIN_backLight_button);
+	int buttonPressed=digitalRead(PIN_button_backLight);
 	if(buttonPressed){
 		Serial.print("Button Pressed ");
 		const long startPress=millis();
-		while(digitalRead(PIN_backLight_button)){}
+		while(digitalRead(PIN_button_backLight)){}
 		Serial.print(millis()-startPress);
 		Serial.print("\n");
 		if(backLight){
@@ -85,7 +87,7 @@ void loop() {
 		else if(!backLight){
 			Serial.println("Backlight turnt on by button");
 			backLight=true;
-			backLight_turnOff=ms+1e4;
+			backLight_turnOff=ms+backLight_turnOffTime ;
 			digitalWrite(PIN_backLight,HIGH);
 		}
 	}
