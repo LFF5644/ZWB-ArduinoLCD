@@ -55,7 +55,7 @@ void loop() {
 		else if(!backLight){
 			Serial.println("Backlight turnt on by button");
 			backLight=true;
-			backLight_turnOff=ms+3e3;
+			backLight_turnOff=ms+1e4;
 			digitalWrite(PIN_backLight,HIGH);
 		}
 	}
