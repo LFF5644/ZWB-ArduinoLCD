@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <LiquidCrystal.h>
+#include <IRremote.hpp>
 
 const int 
 	rs=12,	// Digital 12
@@ -10,6 +11,7 @@ const int
 	d7=2,	// Digital 02
 	PIN_button_backLight=6,	// Digital 06
 	PIN_backLight=8,		// Digital 08
+	PIN_irRemote=7,
 	PIN_sensorGas=A0;		// Analog 00
 
 const long
@@ -54,6 +56,7 @@ void setup(){
 	pinMode(PIN_backLight,OUTPUT);
 	pinMode(PIN_button_backLight,INPUT);
 	pinMode(PIN_sensorGas,INPUT);
+	IrReceiver.begin(PIN_irRemote, ENABLE_LED_FEEDBACK);
 	digitalWrite(PIN_backLight,HIGH);
 
 	Serial.begin(9600);
@@ -100,5 +103,17 @@ void loop(){
 		digitalWrite(PIN_backLight,LOW);
 		clearLine(1);
 		lcd.print("press button");
+	}
+	if(IrReceiver.decode()){
+		long irReceived=IrReceiver.decodedIRData.decodedRawData;
+		if(irReceived!=0){
+			Serial.println(irReceived);
+			if(irReceived==-1169817856){	// if power off btn pressed
+				Serial.println("off");
+				backLight_turnOff=0;	
+			}
+		}
+		
+		IrReceiver.resume();
 	}
 }
