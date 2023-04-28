@@ -2,5 +2,6 @@
 	"stm32-for-vscode.openOCDPath": false,
 	"stm32-for-vscode.makePath": false,
 	"stm32-for-vscode.armToolchainPath": false,
-	"C_Cpp.errorSquiggles": "disabled"
+	"C_Cpp.errorSquiggles": "disabled",
+	"cmake.configureOnOpen": false
 }

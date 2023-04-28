@@ -11,8 +11,8 @@ const unsigned char
 	d7=2,	// Digital 02
 	PIN_button_backLight=6,	// Digital 06
 	PIN_backLight=8,		// Digital 08
-	PIN_irRemote=7,
-	PIN_sensorGas=A6;		// Analog 00
+	PIN_irRemote=7,			// Digital 07
+	PIN_sensorGas=A0;		// Analog  00
 
 const unsigned long
 	backLight_turnOffTime=1e5+2e4;	// 120s
@@ -63,18 +63,18 @@ void runEvery_1s(unsigned long ms){
 	if(sensorGas_value!=sensorGas_lastValue){
 		sensorGas_lastValue=sensorGas_value;
 		clearLine(0);
-		lcd.print("Gas Sensor ");
+		lcd.print("Gas Sensor: ");
 		lcd.print(sensorGas_value);
 	}
 }
-
 
 void setup(){
 	pinMode(PIN_backLight,OUTPUT);
 	pinMode(PIN_button_backLight,INPUT);
 	pinMode(PIN_sensorGas,INPUT);
-	IrReceiver.begin(PIN_irRemote, DISABLE_LED_FEEDBACK);
 	digitalWrite(PIN_backLight,HIGH);
+
+	IrReceiver.begin(PIN_irRemote, DISABLE_LED_FEEDBACK);
 
 	Serial.begin(9600);
 	lcd.begin(16,2);
