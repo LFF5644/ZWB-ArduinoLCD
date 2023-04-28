@@ -84,10 +84,11 @@ void runEvery_1s(unsigned long ms)
 	{
 		sensorGas_lastValue = sensorGas_value;
 		clearLine(0);
-		lcd.print("Gas Sensor: ");
 		lcd.print(sensorGas_value);
+		lcd.print(" air, ");
+		lcd.print(bmp.readTemperature());
+		lcd.print(" C");
 	}
-	Serial.println(bmp.readTemperature());
 }
 
 void setup()
