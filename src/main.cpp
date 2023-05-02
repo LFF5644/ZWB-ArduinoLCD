@@ -3,7 +3,7 @@
 #include <IRremote.hpp>
 #include <Adafruit_BMP280.h>
 
-#define BMP280_I2C_ADDRESS  0x76
+#define BMP280_I2C_ADDRESS 0x76
 
 Adafruit_BMP280 bmp; // use I2C interface
 Adafruit_Sensor *bmp_temp = bmp.getTemperatureSensor();
@@ -80,15 +80,11 @@ void runEvery_500ms(unsigned long ms)
 void runEvery_1s(unsigned long ms)
 {
 	sensorGas_value = analogRead(PIN_sensorGas);
-	if (sensorGas_value != sensorGas_lastValue)
-	{
-		sensorGas_lastValue = sensorGas_value;
-		clearLine(0);
-		lcd.print(sensorGas_value);
-		lcd.print(" air, ");
-		lcd.print(bmp.readTemperature());
-		lcd.print(" C");
-	}
+	clearLine(0);
+	lcd.print(sensorGas_value);
+	lcd.print(" air, ");
+	lcd.print(bmp.readTemperature());
+	lcd.print(" C");
 }
 
 void setup()
