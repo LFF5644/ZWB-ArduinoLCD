@@ -10,16 +10,16 @@ Adafruit_Sensor *bmp_temp = bmp.getTemperatureSensor();
 Adafruit_Sensor *bmp_pressure = bmp.getPressureSensor();
 
 const unsigned char
-	rs = 12,				  // Digital 12
-	en = 11,				  // Digital 11
-	d4 = 5,					  // Digital 05
-	d5 = 4,					  // Digital 04
-	d6 = 3,					  // Digital 03
-	d7 = 2,					  // Digital 02
-	PIN_button_backLight = 6, // Digital 06
-	PIN_backLight = 8,		  // Digital 08
-	PIN_irRemote = 7,		  // Digital 07
-	PIN_sensorGas = A0;		  // Analog  00
+	rs = 2,						// Digital 02
+	en = 3,						// Digital 03
+	d4 = 4,						// Digital 04
+	d5 = 5,						// Digital 05
+	d6 = 6,						// Digital 06
+	d7 = 7,						// Digital 07
+	PIN_button_backLight = 10,	// Digital 10
+	PIN_backLight = 8,			// Digital 08
+	PIN_irRemote = 9,			// Digital 09
+	PIN_sensorGas = A0;			// Analog  00
 
 const unsigned long
 	backLight_turnOffTime = 1e5 + 2e4; // 120s
